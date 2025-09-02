@@ -10,4 +10,6 @@ int main (){
 	mps = kph * 0.27778;
 	
 	printf("%.2f k/h is: %.2f m/s", kph, mps);
+	
+	return 0;
 }

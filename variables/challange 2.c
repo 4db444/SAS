@@ -11,4 +11,5 @@ int main (){
 	
 	printf("%.2f celsius in kelvin is: %.2f", temp_C, temp_K);
 	
+	return 0;
 }

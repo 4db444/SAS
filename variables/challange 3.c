@@ -10,4 +10,6 @@ int main (){
 	yards = kilometers * 1093.61;
 	
 	printf("%.2f kilometes is: %.2f yards", kilometers, yards);
+	
+	return 0;
 }
