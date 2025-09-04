@@ -14,6 +14,7 @@ int main (){
     char book_name[30] = "";
     int quantity = 0;
     int total = 0;
+    int i,j;
 
     while (running) {
         printf("\n+----------------------------------------Menu---------------------------------------+\n");
@@ -68,14 +69,14 @@ int main (){
                 printf("+--------------------+--------------------+--------------------+--------------------+\n");
                 printf("|       Title        |       Writer       |       Price        |      Quantity      |\n");
                 printf("+--------------------+--------------------+--------------------+--------------------+\n");
-                for(int i = 0; i < index; i++){
-                    printf("|%s", titles[i]);for(int j = 1; j < 21 - strlen(titles[i]); j++) printf(" ");
+                for( i = 0; i < index; i++){
+                    printf("|%s", titles[i]);for( j = 1; j < 21 - strlen(titles[i]); j++) printf(" ");
                     
-                    printf("|%s", writers[i]);for(int j = 1; j < 21 - strlen(writers[i]); j++) printf(" ");
+                    printf("|%s", writers[i]);for( j = 1; j < 21 - strlen(writers[i]); j++) printf(" ");
                     
-                    printf("|%05.2f", prices[i]);for(int j = 1; j < 16; j++) printf(" ");
+                    printf("|%05.2f", prices[i]);for( j = 1; j < 16; j++) printf(" ");
                     
-                    printf("|%05d", quantities[i]);for(int j = 1; j < 16; j++) printf(" ");
+                    printf("|%05d", quantities[i]);for( j = 1; j < 16; j++) printf(" ");
                     printf("|\n");
                     if (i == index - 1){
                         printf("+-----------------------------------------------------------------------------------+\n");
@@ -94,20 +95,20 @@ int main (){
                 printf("|Enter the name of the book:                                                            |\n");
                 scanf("%s", &book_name);
                 printf("|Searching...                                                                       |\n");
-                for (int i = 0; i < index; i++){
+                for ( i = 0; i < index; i++){
                     if(strcmp(titles[i], book_name) == 0){
                         printf("|Founded :)                                                                         |");
                         printf("\n+-----------+-----------------------------------------------------------------------+\n");
-                        printf("|Title      |%s", titles[i]);for(int j = 1; j < 72 - strlen(titles[i]); j++) printf(" ");
+                        printf("|Title      |%s", titles[i]);for( j = 1; j < 72 - strlen(titles[i]); j++) printf(" ");
                         printf("|");
                         printf("\n+-----------+-----------------------------------------------------------------------|");
-                        printf("\n|Writer     |%s", writers[i]);for(int j = 1; j < 72 - strlen(writers[i]); j++) printf(" ");
+                        printf("\n|Writer     |%s", writers[i]);for( j = 1; j < 72 - strlen(writers[i]); j++) printf(" ");
                         printf("|");
                         printf("\n+-----------+-----------------------------------------------------------------------|");
-                        printf("\n|Price      |%05.2f", prices[i]);for(int j = 1; j < 67; j++) printf(" ");
+                        printf("\n|Price      |%05.2f", prices[i]);for( j = 1; j < 67; j++) printf(" ");
                         printf("|");
                         printf("\n+-----------+-----------------------------------------------------------------------|");
-                        printf("\n|Quantity   |%05d", quantities[i]);for(int j = 1; j < 67; j++) printf(" ");
+                        printf("\n|Quantity   |%05d", quantities[i]);for( j = 1; j < 67; j++) printf(" ");
                         printf("|");
                         printf("\n+-----------------------------------------------------------------------------------+\n");
                         printf("Hit return to continue ;)");
@@ -122,7 +123,7 @@ int main (){
                 printf("|Enter the name of the book:                                                        |\n");
                 scanf("%s", &book_name);
                 printf("|Searching...                                                                       |\n");
-                for (int i = 0; i < index; i++){
+                for ( i = 0; i < index; i++){
                     if(strcmp(titles[i], book_name) == 0){
                         printf("|Founded                                                                            |\n");
                         printf("|Enter the new quantity:                                                            |\n");
@@ -152,11 +153,11 @@ int main (){
                 printf("|Enter the name of the book to remove:                                              |\n");
                 scanf("%s", &book_name);
                 printf("|Searching...                                                                       |\n");
-                for (int i = 0; i < index; i++){
+                for ( i = 0; i < index; i++){
                     if(strcmp(titles[i], book_name) == 0){
                         printf("|Founded                                                                            |\n");
 
-                        for (int j = i; j < index - 1; j++){
+                        for ( j = i; j < index - 1; j++){
                             strcpy(titles[j], titles[j + 1]);
                             strcpy(writers[j], writers[j + 1]);
                             prices[j] = prices[j + 1];
@@ -178,7 +179,7 @@ int main (){
                 break;
             case 6 : 
                 total = 0;
-                for (int i = 0; i < index; i++){
+                for ( i = 0; i < index; i++){
                     total += quantities[i];
                 }
 
