@@ -5,9 +5,9 @@ int main (){
 	char string[30] = "";
 	
 	printf("Enter a string: ");
-	fgets(string, 30, stdin);
+	scanf("%s", &string);
 	
-	printf("the string you entered is: %s", string);
+	printf("the conversion to uppercase is: %s", strupr(string));
 	
 	return 0;
 }
