@@ -16,8 +16,8 @@ int main(){
 	char string[20] = "";
 	
 	printf("enter the string to reverse: ");
-	scanf("%s", &string);
+	scanf("%s", string);
+	reverse(string);
 	
-	printf("the reversed version of \"%s\" is: %s",string, reverse(string));
 	return 0;
 }

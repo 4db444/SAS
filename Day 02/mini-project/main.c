@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main (){
     char titles[100][30] = {0};
@@ -32,6 +33,7 @@ int main (){
             scanf("%d", &choice);
         }while(choice < 1 || choice > 7);
 
+        system("clear");
         switch(choice){
             case 1: 
                 printf("+------------------------------------Adding form------------------------------------+\n");
@@ -194,6 +196,7 @@ int main (){
                 running = false;
                 break;
         }
+        system("clear");
     }
 
     printf("Bye !!!\n");
