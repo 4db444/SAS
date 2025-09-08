@@ -190,7 +190,7 @@ int main (){
                     printf("--> ");
                     fgets(contact.name, 31, stdin);
                     contact.name[strlen(contact.name) - 1] = '\0';
-                } while (strlen(contact.name) < 5);
+                } while (strlen(contact.name) < 3);
                 
                 do{
                     print_line("Enter the contact Email: ");

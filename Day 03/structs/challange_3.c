@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 struct Rectangle {
     int width;
     int height;

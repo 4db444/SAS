@@ -8,8 +8,8 @@ struct Student {
 
 int main (){
     struct Student me = {
-        "brahim",
-        "alhyan",
+        "fred",
+        "ben ali",
         {2, 10, 12, 11, 2, 5, 1, 0, 20, 15}
     };
 
