@@ -20,6 +20,23 @@ typedef struct {
     Date inscription_date;
 } Player;
 
+void trim(char string[]){
+    int i = 0;
+
+    while (string[i] == ' ') i++;
+
+    if (i  > 0){
+        int j = 0;
+        while (string[j] == ' ') string[j++] = string[i++];
+    }
+
+    int l = strlen(string);
+    while (l > 0 && string[l - 1] == ' '){
+        string[l - 1] = '\0';
+        l--;
+    }
+}
+
 void print_header (char title[]){
     int half_width = (WIDTH - strlen(title) ) / 2;
 
@@ -143,21 +160,64 @@ void print_line (char string[]){
 int main (){
 
     Player players[] = {};
+    int choice = 0;
+    bool is_running = true;
 
-    print_in_center("Welcome To Team Managing App", 100);
+    print_in_center("Welcome To Team Managing App", WIDTH);
 
     printf("\n\n");
     
-    print_header(" Menu ");
-    print_line(" 1. Add a player.");
-    print_line(" 2. Show all players.");
-    print_line(" 3. Update a player.");
-    print_line(" 4. Delete a player.");
-    print_line(" 5. Search for a player.");
-    print_line(" 6. Show statistics.");
-    print_header("");
+    while (is_running){
+        
+        print_header(" Menu ");
+        print_line(" 1. Add a player.");
+        print_line(" 2. Show all players.");
+        print_line(" 3. Update a player.");
+        print_line(" 4. Delete a player.");
+        print_line(" 5. Search for a player.");
+        print_line(" 6. Show statistics.");
+        print_header("");
 
+        printf("choose your option by the associated number: ");
+        scanf("%d", &choice); 
+        getchar();
 
+        system("clear");
+        switch (choice) {
+            case 1 : 
+            
+            break;
+            case 2 : 
+            printf("2");
+            break;
+            case 3 : 
+            printf("3");
+            break;
+            case 4 : 
+            printf("4");
+            break;
+            case 5 : 
+            printf("5");
+            break;
+            case 6 : 
+                printf("6");
+                break;
+            case 7 : 
+                printf("7");
+                break;
+            default : 
+                print_header(" 404 ");
+                printf("\n\n");
+                print_in_center("OOPS, looks like there is not matching option :(", WIDTH);
+                printf("\n\n\nHit Enter to continue ;)\n");
+                getchar();
+                getchar();
+        }
+        choice = 0;
+        system("clear");
+    }
+    
 
+    
     return 0;
 }
