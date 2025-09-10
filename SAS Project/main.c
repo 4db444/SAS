@@ -3,6 +3,14 @@
 #include <string.h>
 #include <stdlib.h>
 #define WIDTH 100
+#define ID_WIDTH 7
+#define FIRST_NAME_WIDTH 25
+#define LAST_NAME_WIDTH 25
+#define NUMBER_WIDTH 6
+#define AGE_WIDTH 5
+#define POSITION_WIDTH 15
+#define GOALS_WIDTH 9
+
 
 typedef struct {
     int day;
@@ -12,7 +20,8 @@ typedef struct {
 
 typedef struct {
     int id;
-    char nom[30];
+    char first_name[30];
+    char last_name[30];
     int number;
     char position[15];
     int age;
@@ -63,105 +72,226 @@ void print_line (char string[]){
 
 }
 
-// void break_down (char name[], char email[], char phone[]){
-//     print_header("");
+void break_down (Player player){
+    char id [20] = "";
+    char age [20] = "";
+    char goals [20] = "";
+
+    sprintf(id, "%d", player.id);
+    sprintf(age, "%d", player.age);
+    sprintf(goals, "%d", player.goals);
+
+    print_header("");
     
-//     printf("|Name   | "); 
-//     printf("%s", name);
-//     for (int i = 0; i < width - 10 - strlen(name) - 1; i++) printf(" ");
-//     printf("|\n");
-//     print_header("");
+    printf("|ID         | "); 
+    printf("%s", id);
+    for (int i = 0; i < WIDTH - 14 - strlen(id) - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
     
-//     printf("|Email  | ");
-//     printf("%s", email);
-//     for (int i = 0; i < width - 10 - strlen(email) - 1; i++) printf(" ");
-//     printf("|\n");
-//     print_header("");
+    printf("|First Name | ");
+    printf("%s", player.first_name);
+    for (int i = 0; i < WIDTH - 14 - strlen(player.first_name) - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
     
-//     printf("|Phone  | ");
-//     printf("%s", phone);
-//     for (int i = 0; i < width - 10 - strlen(phone) - 1; i++) printf(" ");
-//     printf("|\n");
+    printf("|Last Name  | ");
+    printf("%s", player.last_name);
+    for (int i = 0; i < WIDTH - 14 - strlen(player.last_name) - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
 
-//     print_header("");
-// }
+    printf("|Number     | ");
+    printf("%02d", player.number);
+    for (int i = 0; i < WIDTH - 14 - 2 - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
 
-// void show_all (struct Contact contacts [], int index){
-//     printf("+");
-//     for(int i = 0; i < 30; i++) printf("-");
-//     printf("+");
-//     for(int i = 0; i < 36; i++) printf("-");
-//     printf("+");
-//     for(int i = 0; i < 10; i++) printf("-");
-//     printf("+\n");
+    printf("|Position   | ");
+    printf("%s", player.position);
+    for (int i = 0; i < WIDTH - 14 - strlen(player.position) - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
 
-//     printf("|");
+    printf("|Age        | ");
+    printf("%02d", player.age);
+    for (int i = 0; i < WIDTH - 14 - 2 - 1; i++) printf(" ");
+    printf("|\n");
+    print_header("");
 
-//     for(int i = 0; i < (30 - 4) / 2; i++ )printf(" ");
-//     printf("Name");
-//     for(int i = 0; i < ((30 - 4) / 2) + (30 - 4) % 2; i++ )printf(" ");
+    printf("|Goals      | ");
+    printf("%s", goals);
+    for (int i = 0; i < WIDTH - 14 - strlen(goals) - 1; i++) printf(" ");
+    printf("|\n");
+
+    print_header("");
+}
+
+void show_all (Player players [], int index){
+    printf("+");
+    for(int i = 0; i < ID_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < FIRST_NAME_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < LAST_NAME_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < NUMBER_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < POSITION_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < AGE_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+    printf("+\n");
+
+    printf("|");
+
+    for(int i = 0; i < (ID_WIDTH - 2) / 2; i++ )printf(" ");
+    printf("ID");
+    for(int i = 0; i < ((ID_WIDTH - 2) / 2) + (ID_WIDTH - 2) % 2; i++ )printf(" ");
     
-//     printf("|");
+    printf("|");
     
-//     for(int i = 0; i < (36 - 5) / 2; i++ )printf(" ");
-//     printf("Email");
-//     for(int i = 0; i < ((36 - 5) / 2) + (36 - 5) % 2; i++ )printf(" ");
-
-//     printf("|");
+    for(int i = 0; i < (FIRST_NAME_WIDTH - 10) / 2; i++ )printf(" ");
+    printf("First Name");
+    for(int i = 0; i < ((FIRST_NAME_WIDTH - 10) / 2) + (FIRST_NAME_WIDTH - 10) % 2; i++ )printf(" ");
     
-//     for(int i = 0; i < (10 - 5) / 2; i++ )printf(" ");
-//     printf("Phone");
-//     for(int i = 0; i < ((10 - 5) / 2) + (10 - 5) % 2; i++ )printf(" ");
+    printf("|");
+    
+    for(int i = 0; i < (LAST_NAME_WIDTH - 9) / 2; i++ )printf(" ");
+    printf("Last Name");
+    for(int i = 0; i < ((LAST_NAME_WIDTH - 9) / 2) + (LAST_NAME_WIDTH - 9) % 2; i++ )printf(" ");
+    
+    printf("|");
+    
+    for(int i = 0; i < (NUMBER_WIDTH - 6) / 2; i++ )printf(" ");
+    printf("Number");
+    for(int i = 0; i < ((NUMBER_WIDTH - 6) / 2) + (NUMBER_WIDTH - 6) % 2; i++ )printf(" ");
+    
+    printf("|");
+    
+    for(int i = 0; i < (POSITION_WIDTH - 8) / 2; i++ )printf(" ");
+    printf("Position");
+    for(int i = 0; i < ((POSITION_WIDTH - 8) / 2) + (POSITION_WIDTH - 8) % 2; i++ )printf(" ");
+    
+    printf("|");
+    
+    for(int i = 0; i < (AGE_WIDTH - 3) / 2; i++ )printf(" ");
+    printf("Age");
+    for(int i = 0; i < ((AGE_WIDTH - 3) / 2) + (AGE_WIDTH - 3) % 2; i++ )printf(" ");
+    
+    printf("|");
+    
+    for(int i = 0; i < (GOALS_WIDTH - 5) / 2; i++ )printf(" ");
+    printf("Goals");
+    for(int i = 0; i < ((GOALS_WIDTH - 5) / 2) + (GOALS_WIDTH - 5) % 2; i++ )printf(" ");
 
-//     printf("|\n");
+    printf("|\n");
 
-//     printf("+");
-//     for(int i = 0; i < 30; i++) printf("-");
-//     printf("+");
-//     for(int i = 0; i < 36; i++) printf("-");
-//     printf("+");
-//     for(int i = 0; i < 10; i++) printf("-");
-//     printf("+\n");
+    printf("+");
+    for(int i = 0; i < ID_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < FIRST_NAME_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < LAST_NAME_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < NUMBER_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < POSITION_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < AGE_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+    printf("+\n");
 
-//     for(int i = 0; i < index ; i++){
-//         printf("|");
+    for(int i = 0; i < index ; i++){
+        char id [20] = "";
+        char goals [20] = "";
 
-//         for(int j = 0; j < (30 - strlen(contacts[i].name)) / 2; j++ )printf(" ");
-//         printf("%s", contacts[i].name);
-//         for(int j = 0; j < ((30 - strlen(contacts[i].name)) / 2) + (30 - strlen(contacts[i].name)) % 2; j++ )printf(" ");
+        sprintf(id, "%d", players[i].id);
+        sprintf(goals, "%d", players[i].goals);
+
+        printf("|");
+
+        for(int j = 0; j < (ID_WIDTH - strlen(id)) / 2; j++ )printf(" ");                   
+        printf("%s", id);
+        for(int j = 0; j < ((ID_WIDTH - strlen(id)) / 2) + (ID_WIDTH - strlen(id)) % 2; j++ )printf(" ");
         
-//         printf("|");
+        printf("|");
         
-//         for(int j = 0; j < (36 - strlen(contacts[i].email)) / 2; j++ )printf(" ");
-//         printf("%s", contacts[i].email);
-//         for(int j = 0; j < ((36 - strlen(contacts[i].email)) / 2) + (36 - strlen(contacts[i].email)) % 2; j++ )printf(" ");
-
-//         printf("|");
+        for(int j = 0; j < (FIRST_NAME_WIDTH - strlen(players[i].first_name)) / 2; j++ )printf(" ");
+        printf("%s", players[i].first_name);
+        for(int j = 0; j < (FIRST_NAME_WIDTH - strlen(players[i].first_name)) / 2 + (FIRST_NAME_WIDTH - strlen(players[i].first_name)) % 2; j++ )printf(" ");
         
-//         printf("%s", contacts[i].phone);
-
-//         printf("|\n");
+        printf("|");
         
-//         if(i == index - 1) {
-//             print_header("");
-//             break;
-//         }
+        for(int j = 0; j < (LAST_NAME_WIDTH - strlen(players[i].last_name)) / 2; j++ )printf(" ");
+        printf("%s", players[i].last_name);
+        for(int j = 0; j < (LAST_NAME_WIDTH - strlen(players[i].last_name)) / 2 + (LAST_NAME_WIDTH - strlen(players[i].last_name)) % 2; j++ )printf(" ");
+        
+        printf("|");
+        
+        for(int j = 0; j < (NUMBER_WIDTH - 2) / 2; j++ )printf(" ");
+        printf("%02d", players[i].number);
+        for(int j = 0; j < ((NUMBER_WIDTH - 2) / 2) + (NUMBER_WIDTH - 2) % 2; j++ )printf(" ");
+        
+        printf("|");
+        
+        for(int j = 0; j < (POSITION_WIDTH - strlen(players[i].position)) / 2; j++ )printf(" ");
+        printf("%s", players[i].position);
+        for(int j = 0; j < ((POSITION_WIDTH - strlen(players[i].position)) / 2) + (POSITION_WIDTH - strlen(players[i].position)) % 2; j++ )printf(" ");
 
-//         printf("+");
-//         for(int i = 0; i < 30; i++) printf("-");
-//         printf("+");
-//         for(int i = 0; i < 36; i++) printf("-");
-//         printf("+");
-//         for(int i = 0; i < 10; i++) printf("-");
-//         printf("+\n");
-//     }
-// }
+        printf("|");
+        
+        for(int j = 0; j < (AGE_WIDTH - 2) / 2; j++ )printf(" ");
+        printf("%02d", players[i].age);
+        for(int j = 0; j < ((AGE_WIDTH - 2) / 2) + (AGE_WIDTH - 2) % 2; j++ )printf(" ");
+
+        printf("|");
+        
+        for(int j = 0; j < (GOALS_WIDTH - strlen(goals)) / 2; j++ )printf(" ");
+        printf("%s", goals);
+        for(int j = 0; j < ((GOALS_WIDTH - strlen(goals)) / 2) + (GOALS_WIDTH - strlen(goals)) % 2; j++ )printf(" ");
+
+        printf("|\n");
+        
+        if(i == index - 1) {
+            print_header("");
+            break;
+        }
+
+        printf("+");
+        for(int i = 0; i < ID_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < FIRST_NAME_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < LAST_NAME_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < NUMBER_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < POSITION_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < AGE_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+        printf("+\n");
+    }
+}
+
+bool is_validate_number(Player arr[], int n, int index){
+    for (int i = 0; i < index; i++){
+        if(arr[i].number == n) return 0;
+    }
+    return 1;
+}
 
 int main (){
 
-    Player players[] = {};
+    Player players[100] = {{1, "brahim", "hello", 10, "defender", 11, 11}};
+    int ID = 2;
     int choice = 0;
     bool is_running = true;
+    int index = 1;
 
     print_in_center("Welcome To Team Managing App", WIDTH);
 
@@ -185,20 +315,118 @@ int main (){
         system("clear");
         switch (choice) {
             case 1 : 
+                Player player = {0};
+                bool is_inserting = true;
+                int position_choice = 0;
+                int inserting_choice = 0;
+
+                while (is_inserting){
+                    player.id = ID;
+                    
+                    system("clear");
+                    print_header(" Adding Form ");
+                    do{
+                        printf("| Enter the player's first name: ");
+                        scanf("%s", &player.first_name);
+                    }while(strlen(player.first_name) < 2);
+
+                    do{
+                        printf("| Enter the player's last name: ");
+                        scanf("%s", &player.last_name);
+                    }while(strlen(player.last_name) < 2);
+                    
+                    do {
+                        printf("| Enter the player's jercy number: ");
+                        scanf("%d", &player.number);
+                        getchar();
+                        if(! is_validate_number(players, player.number, index)){
+                            printf("|--> Number already exists !\n");
+                            player.number = 0;
+                        }
+                    }while(player.number <= 0 || player.number >=100);
+
+                    do{
+                        printf("| Enter the player's position: \n");
+                        printf("|\t1. Goalkeeper \n");
+                        printf("|\t2. Defender \n");
+                        printf("|\t3. Midfeilder \n");
+                        printf("|\t4. Striker \n");
+                        printf("|-----> ");
+                        scanf("%d", &position_choice);
+                        getchar();
+
+                        switch (position_choice){
+                            case 1 :
+                                strcpy(player.position, "Goalkeeper");
+                                break;
+                            case 2 :
+                                strcpy(player.position, "Defender");
+                                break;
+                            case 3 :
+                                strcpy(player.position, "Midfeilder");
+                                break;
+                            case 4 :
+                                strcpy(player.position, "Striker");
+                                break;
+                            default : 
+                                printf("|-----> You must choose a number between 1 and 4.\n");
+                        }
+                    }while(position_choice > 4 || position_choice <= 0);
+
+                    do{
+                        printf("| Enter the player's Age: ");
+                        scanf("%d", &player.age);
+                        getchar();
+                    }while (player.age <= 0 || player.age >= 100);
+
+                    do{
+                        printf("| Enter the player's Goals: ");
+                        scanf("%d", &player.goals);
+                        getchar();
+                    }while (player.goals <= 0);
+
+                    players[index] = player;
+                    ID++;
+                    index++;
+
+                    system("clear");
+                    print_header(" Player Added Successfully ");
+                    break_down(player);
+
+                    printf("Hit Enter to continue !");
+                    getchar();
+                    system("clear");
+
+                    do{
+                        print_header(" Adding Form ");
+                        printf("| Do you want to continue adding ?\n");
+                        printf("| 1. Yes :)\n");
+                        printf("| 2. No :(\n");
+                        printf("|\n");
+                        printf("|--->");
+                        scanf("%d", &inserting_choice);
+                    }while(inserting_choice < 1 || inserting_choice > 2);
+
+                    if(inserting_choice == 2){
+                        is_inserting = false;
+                    }
+                }
             
-            break;
+                break;
             case 2 : 
-            printf("2");
-            break;
+                show_all(players, index);
+                printf("| Hit Enter to continue ;)");
+                getchar();
+                break;
             case 3 : 
             printf("3");
-            break;
+                break;
             case 4 : 
             printf("4");
-            break;
+                break;
             case 5 : 
             printf("5");
-            break;
+                break;
             case 6 : 
                 printf("6");
                 break;
@@ -216,8 +444,5 @@ int main (){
         choice = 0;
         system("clear");
     }
-    
-
-    
     return 0;
 }
