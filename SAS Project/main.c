@@ -319,15 +319,15 @@ void sort_by_age (Player arr[], int index){
     Player temp = {0};
 
     for(int i = 0; i < index - 1; i++){
-        int min = i;
+        int max = i;
         for (int j = i + 1; j < index; j++){
-            if(arr[min].age > arr[j].age){
-                min = j;
+            if(arr[max].age < arr[j].age){
+                max = j;
             }
         }
 
-        temp = arr[min];
-        arr[min] = arr[i];
+        temp = arr[max];
+        arr[max] = arr[i];
         arr[i] = temp;
 
     }
@@ -364,19 +364,81 @@ void sort_by_goals (Player arr[], int index){
     Player temp = {0};
 
     for(int i = 0; i < index - 1; i++){
-        int min = i;
+        int max = i;
         for (int j = i + 1; j < index; j++){
-            if(arr[min].goals > arr[j].goals){
-                min = j;
+            if(arr[max].goals < arr[j].goals){
+                max = j;
             }
         }
 
-        temp = arr[min];
-        arr[min] = arr[i];
+        temp = arr[max];
+        arr[max] = arr[i];
         arr[i] = temp;
 
     }
 }
+
+int find_by_id (Player arr[], int index, int id){
+    for (int i = 0; i < index; i++){
+        if(arr[i].id == id) return i;
+    }
+
+    return -1;
+}
+
+void update_player (Player arr[], int index, int id){
+    int new_age = 0;
+    int new_goals = 0;
+    int new_post = 0;
+
+    do{
+        printf("| Enter the new age: ");
+        scanf("%d", &new_age);
+        while (getchar() != '\n');
+    }while (new_age <= 0);
+
+    arr[id].age = new_age;
+
+    do{
+        printf("| Enter the player's position: \n");
+        printf("|\t1. Goalkeeper \n");
+        printf("|\t2. Defender \n");
+        printf("|\t3. Midfeilder \n");
+        printf("|\t4. Striker \n");
+        printf("|-----> ");
+        scanf("%d", &new_post);
+
+        while(getchar() != '\n');
+
+        switch (new_post){
+            case 1 :
+                strcpy(arr[id].position, "Goalkeeper");
+                break;
+            case 2 :
+                strcpy(arr[id].position, "Defender");
+                break;
+            case 3 :
+                strcpy(arr[id].position, "Midfeilder");
+                break;
+            case 4 :
+                strcpy(arr[id].position, "Striker");
+                break;
+            default : 
+                printf("|-----> You must choose a number between 1 and 4.\n");
+        }
+    }while (new_post < 1 || new_post > 4); 
+
+
+    do{
+        printf("| Enter the new scored goals: ");
+        scanf("%d", &new_goals);
+        while (getchar() != '\n');
+    }while (new_goals <= 0);
+
+    arr[id].goals = new_goals;
+
+}
+
 
 
 int main (){
@@ -561,7 +623,42 @@ int main (){
                 }
                 break;
             case 3 : 
-            printf("3");
+                int target_id = 0;
+                int player_id = 0;
+                print_header(" Update ");
+
+                do{
+                    printf("| Enter the player id to update: ");
+                    scanf("%d", &target_id);
+                    while (getchar() != '\n');
+                }while (target_id < 0);
+
+                printf("| Searching...\n");
+
+                player_id = find_by_id(players, index, target_id);
+
+                if(player_id < 0) {
+                    printf("| The player you are looking for does not exists in the team !\n");
+                    printf("| Hit Enter to continue ;)");
+                    getchar();
+                    break;
+                }
+                printf("| Founded !\n");
+                break_down(players[player_id]);
+                printf("| Hit Enter to contniue ;)");
+                getchar();
+                
+                system("clear");
+                print_header(" Update ");
+                update_player(players, index, player_id);
+
+                system("clear");
+                print_header(" Updated Successfully ");
+                break_down(players[player_id]);
+
+                printf("| Hit Enter to contniue ;)");
+                getchar();
+
                 break;
             case 4 : 
             printf("4");
