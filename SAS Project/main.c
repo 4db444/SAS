@@ -285,13 +285,112 @@ bool is_validate_number(Player arr[], int n, int index){
     return 1;
 }
 
+void sort_by_position (Player arr[], int index){
+    int j = 0;
+    Player temp = {};
+    
+    for(int i = 0; i < index; i++){
+        if(strcmp(arr[i].position, "Striker") == 0){
+            temp = arr[j];
+            arr[j++] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+    for(int i = j; i < index; i++){
+        if(strcmp(arr[i].position, "Midfeilder") == 0){
+            temp = arr[j];
+            arr[j++] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+    for(int i = j; i < index; i++){
+        if(strcmp(arr[i].position, "Defender") == 0){
+            temp = arr[j];
+            arr[j++] = arr[i];
+            arr[i] = temp;
+        }
+    }
+}
+
+void sort_by_age (Player arr[], int index){
+
+    Player temp = {0};
+
+    for(int i = 0; i < index - 1; i++){
+        int min = i;
+        for (int j = i + 1; j < index; j++){
+            if(arr[min].age > arr[j].age){
+                min = j;
+            }
+        }
+
+        temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
+
+    }
+}
+
+void sort_by_name (Player arr[], int index){
+    for (int i = 0; i < index - 1; i++){
+        int min = i;
+        Player temp = {};
+        
+        for (int j = i + 1; j < index; j++){
+            char full_name_i [60] = "", full_name_j [60] = "";
+            strcpy(full_name_i, arr[min].first_name);
+            strcat(full_name_i, " ");
+            strcat(full_name_i, arr[min].last_name);
+
+            strcpy(full_name_j, arr[j].first_name);
+            strcat(full_name_j, " ");
+            strcat(full_name_j, arr[j].last_name);
+
+            if(strcmp(full_name_i, full_name_j) > 0){
+                min = j;
+            }
+        }
+
+        temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
+    }
+}
+
+void sort_by_goals (Player arr[], int index){
+
+    Player temp = {0};
+
+    for(int i = 0; i < index - 1; i++){
+        int min = i;
+        for (int j = i + 1; j < index; j++){
+            if(arr[min].goals > arr[j].goals){
+                min = j;
+            }
+        }
+
+        temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
+
+    }
+}
+
+
 int main (){
 
-    Player players[100] = {{1, "brahim", "hello", 10, "defender", 11, 11}};
+    Player players[100] = {
+        {1, "abdo", "hello", 2, "Defender", 10, 100},
+        {2, "abdo", "hi", 11, "Striker", 15, 120},
+        {3, "abdo", "by", 5, "Striker", 8, 20},
+        {4, "aa", "moooochi", 1, "Goalkeeper", 85, 45}
+    };
     int ID = 2;
     int choice = 0;
     bool is_running = true;
-    int index = 1;
+    int index = 4;
 
     print_in_center("Welcome To Team Managing App", WIDTH);
 
@@ -310,7 +409,7 @@ int main (){
 
         printf("choose your option by the associated number: ");
         scanf("%d", &choice); 
-        getchar();
+        while(getchar() != '\n');
 
         system("clear");
         switch (choice) {
@@ -338,7 +437,7 @@ int main (){
                     do {
                         printf("| Enter the player's jercy number: ");
                         scanf("%d", &player.number);
-                        getchar();
+                        while(getchar() != '\n');
                         if(! is_validate_number(players, player.number, index)){
                             printf("|--> Number already exists !\n");
                             player.number = 0;
@@ -353,7 +452,8 @@ int main (){
                         printf("|\t4. Striker \n");
                         printf("|-----> ");
                         scanf("%d", &position_choice);
-                        getchar();
+
+                        while(getchar() != '\n');
 
                         switch (position_choice){
                             case 1 :
@@ -376,13 +476,13 @@ int main (){
                     do{
                         printf("| Enter the player's Age: ");
                         scanf("%d", &player.age);
-                        getchar();
+                        while(getchar() != '\n');
                     }while (player.age <= 0 || player.age >= 100);
 
                     do{
                         printf("| Enter the player's Goals: ");
                         scanf("%d", &player.goals);
-                        getchar();
+                        while(getchar() != '\n');
                     }while (player.goals <= 0);
 
                     players[index] = player;
@@ -405,6 +505,7 @@ int main (){
                         printf("|\n");
                         printf("|--->");
                         scanf("%d", &inserting_choice);
+                        while(getchar() != '\n');
                     }while(inserting_choice < 1 || inserting_choice > 2);
 
                     if(inserting_choice == 2){
@@ -414,9 +515,50 @@ int main (){
             
                 break;
             case 2 : 
-                show_all(players, index);
-                printf("| Hit Enter to continue ;)");
-                getchar();
+                int sort_choice = 0;
+                bool is_showing = true;
+
+                while(is_showing){
+
+                    print_header(" Sort & Show");
+                    do{
+                        printf("| what do you want to sort the players by ?\n");
+                        printf("|\t 1. Name (first name + last name).\n");
+                        printf("|\t 2. Age.\n");
+                        printf("|\t 3. Goals.\n");
+                        printf("|\t 4. Position.\n");
+                        printf("|\t 5. Back home menu.\n");
+                        printf("|-----> ");
+                        scanf("%d", &sort_choice);
+                        while(getchar() != '\n');
+                    }while(sort_choice < 1 || sort_choice > 5);
+                    
+                    system("clear");
+                    switch(sort_choice){
+                        case 1:
+                            sort_by_name(players, index);
+                            break;
+                        case 2:
+                            sort_by_age(players, index);
+                            break;
+                        case 3:
+                            sort_by_goals(players, index);
+                            break;
+                        case 4:
+                            sort_by_position(players, index);
+                            break;
+                        case 5:
+                            is_showing = false;
+                            break;
+                    }
+                    if(is_showing){
+                        print_header(" Sort & Show");
+                        show_all(players, index);
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                        system("clear");
+                    }
+                }
                 break;
             case 3 : 
             printf("3");
@@ -438,7 +580,6 @@ int main (){
                 printf("\n\n");
                 print_in_center("OOPS, looks like there is not matching option :(", WIDTH);
                 printf("\n\n\nHit Enter to continue ;)\n");
-                getchar();
                 getchar();
         }
         choice = 0;
