@@ -2,7 +2,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
-#define WIDTH 100
+#include <time.h>
+#define WIDTH 119
 #define ID_WIDTH 7
 #define FIRST_NAME_WIDTH 25
 #define LAST_NAME_WIDTH 25
@@ -10,9 +11,12 @@
 #define AGE_WIDTH 5
 #define POSITION_WIDTH 15
 #define GOALS_WIDTH 9
+#define DATE_WIDTH 18
 
 
 typedef struct {
+    int minute;
+    int hour;
     int day;
     int month; 
     int year;
@@ -28,6 +32,20 @@ typedef struct {
     int goals;
     Date inscription_date;
 } Player;
+
+Date get_date (){
+    time_t T = time(0);
+    struct tm date = *localtime(&T);
+    Date today = {};
+
+    today.year = date.tm_year + 1900;
+    today.month = date.tm_mon + 1;
+    today.day = date.tm_mday;
+    today.hour = date.tm_hour;
+    today.minute = date.tm_min;
+
+    return today;
+}
 
 void trim(char string[]){
     int i = 0;
@@ -143,6 +161,8 @@ void print_table_head (){
     for(int i = 0; i < AGE_WIDTH; i++) printf("-");
     printf("+");
     for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < DATE_WIDTH; i++) printf("-");
     printf("+\n");
 
     printf("|");
@@ -187,6 +207,12 @@ void print_table_head (){
     printf("Goals");
     for(int i = 0; i < ((GOALS_WIDTH - 5) / 2) + (GOALS_WIDTH - 5) % 2; i++ )printf(" ");
 
+    printf("|");
+    
+    for(int i = 0; i < (DATE_WIDTH - 4) / 2; i++ )printf(" ");
+    printf("Date");
+    for(int i = 0; i < ((DATE_WIDTH - 4) / 2) + (DATE_WIDTH - 4) % 2; i++ )printf(" ");
+
     printf("|\n");
 
     printf("+");
@@ -203,6 +229,8 @@ void print_table_head (){
     for(int i = 0; i < AGE_WIDTH; i++) printf("-");
     printf("+");
     for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+    printf("+");
+    for(int i = 0; i < DATE_WIDTH; i++) printf("-");
     printf("+\n");
 }
 
@@ -258,6 +286,12 @@ void show_all (Player players [], int index){
         printf("%s", goals);
         for(int j = 0; j < ((GOALS_WIDTH - strlen(goals)) / 2) + (GOALS_WIDTH - strlen(goals)) % 2; j++ )printf(" ");
 
+        printf("|");
+        
+        for(int j = 0; j < (DATE_WIDTH - 16) / 2; j++ )printf(" ");
+        printf("%02d/%02d/%02d %02d:%02d", players[i].inscription_date.day, players[i].inscription_date.month, players[i].inscription_date.year, players[i].inscription_date.hour, players[i].inscription_date.minute);
+        for(int j = 0; j < ((DATE_WIDTH - 16) / 2) + (DATE_WIDTH - 16) % 2; j++ )printf(" ");
+
         printf("|\n");
         
         if(i == index - 1) {
@@ -279,6 +313,8 @@ void show_all (Player players [], int index){
         for(int i = 0; i < AGE_WIDTH; i++) printf("-");
         printf("+");
         for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
+        printf("+");
+        for(int i = 0; i < DATE_WIDTH; i++) printf("-");
         printf("+\n");
     }
 }
@@ -583,10 +619,10 @@ int yongest_player(Player arr[], int index){
 int main (){
 
     Player players[100] = {
-        {1, "brahim", "hello", 2, "Defender", 11, 100},
-        {2, "messi", "hi", 11, "Striker", 15, 120},
-        {3, "halland", "by", 5, "Striker", 8, 20},
-        {4, "khalid", "moooochi", 1, "Goalkeeper", 85, 45}
+        {1, "brahim", "hello", 2, "Defender", 11, 100, get_date()},
+        {2, "messi", "hi", 11, "Striker", 15, 120, get_date()},
+        {3, "halland", "by", 5, "Striker", 8, 20, get_date()},
+        {4, "khalid", "moooochi", 1, "Goalkeeper", 85, 45, get_date()}
     };
     int ID = 5;
     int choice = 0;
@@ -627,12 +663,12 @@ int main (){
                     print_header(" Adding Form ");
                     do{
                         printf("| Enter the player's first name: ");
-                        scanf("%s", &player.first_name);
+                        scanf("%s", player.first_name);
                     }while(strlen(player.first_name) < 2);
 
                     do{
                         printf("| Enter the player's last name: ");
-                        scanf("%s", &player.last_name);
+                        scanf("%s", player.last_name);
                     }while(strlen(player.last_name) < 2);
                     
                     do {
@@ -685,6 +721,8 @@ int main (){
                         scanf("%d", &player.goals);
                         while(getchar() != '\n');
                     }while (player.goals < 0);
+
+                    player.inscription_date = get_date();
 
                     players[index] = player;
                     ID++;
@@ -943,7 +981,6 @@ int main (){
                 is_running = false;
                 break;
             default : 
-            
                 print_header(" 404 ");
                 printf("\n\n");
                 print_in_center("OOPS, looks like there is not matching option :(", WIDTH);

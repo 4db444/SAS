@@ -21,7 +21,7 @@ int main (){
     printf("\n");
 
     // bubble sort
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 9; i++){
         for (int j = 0; j < 10 - i - 1; j ++){
             if (array[j] < array[j + 1]){
                 temp = array[j];
