@@ -36,7 +36,8 @@ void trim(char string[]){
 
     if (i  > 0){
         int j = 0;
-        while (string[j] == ' ') string[j++] = string[i++];
+        while (string[j] != '\0') string[j++] = string[i++];
+        string [j] = '\0';
     }
 
     int l = strlen(string);
@@ -386,6 +387,23 @@ int find_by_id (Player arr[], int index, int id){
     return -1;
 }
 
+int find_by_name (Player arr[], int index, char name[]){
+    for (int i = 0; i < index; i++){
+        char full_name_1[60] = "", full_name_2[60];
+        strcpy(full_name_1, arr[i].first_name);
+        strcat(full_name_1, " ");
+        strcat(full_name_1, arr[i].last_name);
+
+        strcpy(full_name_2, arr[i].last_name);
+        strcat(full_name_2, " ");
+        strcat(full_name_2, arr[i].first_name);
+
+        if(strcmp(full_name_1, name) == 0 || strcmp(full_name_2, name) == 0) return i;
+    }
+
+    return -1;
+}
+
 void update_player (Player arr[], int index, int id){
     int new_age = 0;
     int new_goals = 0;
@@ -395,7 +413,7 @@ void update_player (Player arr[], int index, int id){
         printf("| Enter the new age: ");
         scanf("%d", &new_age);
         while (getchar() != '\n');
-    }while (new_age <= 0);
+    }while (new_age <= 10 || new_age >=100);
 
     arr[id].age = new_age;
 
@@ -433,23 +451,111 @@ void update_player (Player arr[], int index, int id){
         printf("| Enter the new scored goals: ");
         scanf("%d", &new_goals);
         while (getchar() != '\n');
-    }while (new_goals <= 0);
+    }while (new_goals < 0);
 
     arr[id].goals = new_goals;
-
 }
 
+int search_type (Player arr[], int index){
+    int search_type = 0;
 
+    do{
+        printf("| Choose how you can find your player : \n");
+        printf("|\n");
+        printf("|\t1. Find by id.\n");
+        printf("|\t2. Find by name.\n");
+        printf("|\n");
+        printf("|---> ");
+        scanf("%d", &search_type);
+        while (getchar() != '\n');
+    }while (search_type < 1 || search_type > 2);
+    
+    system("clear");
+    switch(search_type){
+        case 1 : 
+            int id = 0;
+
+            print_header(" Delete ");
+            do{
+                printf("| Enter the player ID: ");
+                scanf("%d", &id);
+                while (getchar() != '\n');
+            }while (id <= 0);
+
+            printf("| Searching...\n");
+            return find_by_id(arr, index, id);
+
+        case 2 : 
+            char name[60] = "";
+            
+            print_header(" Delete ");
+            do{
+                printf("| Enter the player full-name: ");
+                fgets(name, 60, stdin);
+                name[strlen(name) - 1] = '\0';
+            }while (strlen(name) < 5);
+            
+            trim(name);
+            printf("| Searching...\n");
+            return find_by_name(arr, index, name);
+        default: 
+            printf("| Please enter a valid value ! (1/2).\n");
+    }
+}
+
+void delete_player (Player arr[], int *index){
+    int id = search_type(arr, *index);
+
+    if(id >= 0){
+        char response = '\0';
+
+        break_down(arr[id]);
+        printf("| Are you sure you want to delete this record ? (y/n) ");
+        scanf("%c", &response);
+        
+        system("clear");
+        print_header(" Delete ");
+        if(response == 'y' || response == 'Y') {
+            for (int i = id; i < *index; i++){
+                arr[i] = arr[i + 1];
+            }
+            (*index)--;
+            printf("| Record deleted successfully !\n");
+        }else{
+            printf("| Deletion process is canceled! be carfull next time !\n");
+        }
+    }else{
+        printf("| There is no matching record !\n");
+    }
+
+    printf("\n| Hit Enter to continue !");
+    getchar();
+    getchar();
+}
+void search_player (Player arr[], int index){
+    int id = search_type(arr, index);
+
+    if(id >= 0){
+        printf("| Founded. \n");
+        break_down(arr[id]);
+    }else{
+        printf("| There is no matching record !\n");
+    }
+
+    printf("\n| Hit Enter to continue ;)");
+    getchar();
+    getchar();
+}
 
 int main (){
 
     Player players[100] = {
-        {1, "abdo", "hello", 2, "Defender", 10, 100},
-        {2, "abdo", "hi", 11, "Striker", 15, 120},
-        {3, "abdo", "by", 5, "Striker", 8, 20},
-        {4, "aa", "moooochi", 1, "Goalkeeper", 85, 45}
+        {1, "brahim", "hello", 2, "Defender", 10, 100},
+        {2, "messi", "hi", 11, "Striker", 15, 120},
+        {3, "halland", "by", 5, "Striker", 8, 20},
+        {4, "khalid", "moooochi", 1, "Goalkeeper", 85, 45}
     };
-    int ID = 2;
+    int ID = 5;
     int choice = 0;
     bool is_running = true;
     int index = 4;
@@ -465,11 +571,11 @@ int main (){
         print_line(" 2. Show all players.");
         print_line(" 3. Update a player.");
         print_line(" 4. Delete a player.");
-        print_line(" 5. Search for a player.");
+        print_line(" 5. Search for a player (name / ID).");
         print_line(" 6. Show statistics.");
         print_header("");
 
-        printf("choose your option by the associated number: ");
+        printf("| choose your option by the associated number: ");
         scanf("%d", &choice); 
         while(getchar() != '\n');
 
@@ -539,13 +645,13 @@ int main (){
                         printf("| Enter the player's Age: ");
                         scanf("%d", &player.age);
                         while(getchar() != '\n');
-                    }while (player.age <= 0 || player.age >= 100);
+                    }while (player.age <= 10 || player.age >= 100);
 
                     do{
                         printf("| Enter the player's Goals: ");
                         scanf("%d", &player.goals);
                         while(getchar() != '\n');
-                    }while (player.goals <= 0);
+                    }while (player.goals < 0);
 
                     players[index] = player;
                     ID++;
@@ -625,46 +731,72 @@ int main (){
             case 3 : 
                 int target_id = 0;
                 int player_id = 0;
-                print_header(" Update ");
+                bool is_updating = true;
+                int continue_update_choice = 0;
 
-                do{
-                    printf("| Enter the player id to update: ");
-                    scanf("%d", &target_id);
-                    while (getchar() != '\n');
-                }while (target_id < 0);
+                while (is_updating){
+                    print_header(" Update ");
+    
+                    do{
+                        printf("| Enter the player id to update: ");
+                        scanf("%d", &target_id);
+                        while (getchar() != '\n');
+                    }while (target_id < 0);
+    
+                    printf("| Searching...\n");
+    
+                    player_id = find_by_id(players, index, target_id);
+    
+                    if(player_id < 0) {
+                        printf("| The player you are looking for does not exists in the team !\n");
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    }else{
+                        printf("| Founded !\n");
+                        break_down(players[player_id]);
+                        printf("| Hit Enter to contniue ;)");
+                        getchar();
+                        
+                        system("clear");
+                        print_header(" Update ");
+                        update_player(players, index, player_id);
+        
+                        system("clear");
+                        print_header(" Updated Successfully ");
+                        break_down(players[player_id]);
+        
+                        printf("| Hit Enter to contniue ;)");
+                        getchar();
+                    }
 
-                printf("| Searching...\n");
+                    system("clear");
 
-                player_id = find_by_id(players, index, target_id);
+                    do{
+                        print_header(" Update ");
+                        printf("| Do you want to try again ?\n");
+                        printf("| 1. Yes :)\n");
+                        printf("| 2. No :(\n");
+                        printf("|\n");
+                        printf("|--->");
+                        scanf("%d", &continue_update_choice);
+                        while(getchar() != '\n');
+                    }while(continue_update_choice < 1 || continue_update_choice > 2);
 
-                if(player_id < 0) {
-                    printf("| The player you are looking for does not exists in the team !\n");
-                    printf("| Hit Enter to continue ;)");
-                    getchar();
-                    break;
+                    if(continue_update_choice == 2){
+                        is_updating = false;
+                    }
+                    system("clear");
                 }
-                printf("| Founded !\n");
-                break_down(players[player_id]);
-                printf("| Hit Enter to contniue ;)");
-                getchar();
-                
-                system("clear");
-                print_header(" Update ");
-                update_player(players, index, player_id);
 
-                system("clear");
-                print_header(" Updated Successfully ");
-                break_down(players[player_id]);
-
-                printf("| Hit Enter to contniue ;)");
-                getchar();
 
                 break;
             case 4 : 
-            printf("4");
+                print_header(" Delete ");
+                delete_player(players, &index);
                 break;
             case 5 : 
-            printf("5");
+                print_header(" Search ");
+                search_player(players, index);
                 break;
             case 6 : 
                 printf("6");
