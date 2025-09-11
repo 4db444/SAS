@@ -128,7 +128,7 @@ void break_down (Player player){
     print_header("");
 }
 
-void show_all (Player players [], int index){
+void print_table_head (){
     printf("+");
     for(int i = 0; i < ID_WIDTH; i++) printf("-");
     printf("+");
@@ -204,6 +204,10 @@ void show_all (Player players [], int index){
     printf("+");
     for(int i = 0; i < GOALS_WIDTH; i++) printf("-");
     printf("+\n");
+}
+
+void show_all (Player players [], int index){
+    print_table_head();
 
     for(int i = 0; i < index ; i++){
         char id [20] = "";
@@ -547,10 +551,39 @@ void search_player (Player arr[], int index){
     getchar();
 }
 
+float avg_age(Player arr[], int index){
+    float sum = 0;
+    for(int i = 0; i < index; i++){
+        sum = sum + arr[i].age;
+    }
+    float avg = sum / index;
+    return avg;
+}
+
+int top_scorer(Player arr[], int index){
+    int max = 0;
+    for(int i = 1; i < index; i++){
+        if(arr[i].goals > arr[max].goals){
+            max = i;
+        }
+    }
+    return max;
+}
+
+int yongest_player(Player arr[], int index){
+    int min = 0;
+    for(int i = 1; i < index; i++){
+        if(arr[i].age < arr[min].age){
+            min = i;
+        }
+    }
+    return min;
+}
+
 int main (){
 
     Player players[100] = {
-        {1, "brahim", "hello", 2, "Defender", 10, 100},
+        {1, "brahim", "hello", 2, "Defender", 11, 100},
         {2, "messi", "hi", 11, "Striker", 15, 120},
         {3, "halland", "by", 5, "Striker", 8, 20},
         {4, "khalid", "moooochi", 1, "Goalkeeper", 85, 45}
@@ -799,7 +832,96 @@ int main (){
                 search_player(players, index);
                 break;
             case 6 : 
-                printf("6");
+                bool is_stats = true;
+                int stats_choice = 0;
+
+                while (is_stats){
+                    print_header(" Stats ");
+
+                    printf("|\t1. Show total players.\n");
+                    printf("|\t2. Show average team age.\n");
+                    printf("|\t3. Show players scored more than ...\n");
+                    printf("|\t4. Show team's top scorer.\n");
+                    printf("|\t5. Show the yougest player.\n");
+                    printf("|\t6. Back to home menu.\n");
+                    printf("|\n");
+
+                    do {
+                        printf("|-----> ");
+                        scanf("%d", &stats_choice);
+                        while(getchar() != '\n');
+                    }while(stats_choice > 6 || stats_choice < 1);
+
+                    system("clear");
+                    if(stats_choice == 1){
+                        print_header(" Total Team Players ");
+                        printf("|\n");
+                        printf("|\n");
+                        printf("|----------> Total team players is: %d\n", index);
+                    }
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    else if(stats_choice == 2){
+                            print_header(" Average Age ");
+                            printf("|\n");
+                            printf("|\n");
+                            printf("|----------> Avrage team age is: %.2f", avg_age(players, index));
+                    }
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    else if(stats_choice == 3){
+                            int x_goals = 0;
+                            Player new_palyers[index] = {};
+                            int j = 0;
+
+                            if(index > 0){
+                                print_header(" More than X goals ");
+                                do{
+                                    printf("| Enter the number of golas to show players that scores more than it: ");   
+                                    scanf("%d", &x_goals);
+                                    while (getchar () != '\n');
+                                }while (x_goals < 0);
+
+                                for(int i = 0; i < index; i++){
+                                    if(players[i].goals >= x_goals){
+                                        new_palyers[j++] = players[i];
+                                    }
+                                }
+
+                                if(j == 0){
+                                    printf("| There is not player who scored more than %d goals !\n", x_goals);
+                                }else{
+                                    show_all(new_palyers, j);
+                                }
+                            }else{
+                                printf("| there is no players yet !\n");
+                            }
+                            printf("| Hit Enter to continue ;)");
+                    }
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    else if(stats_choice == 4){
+                        print_header(" Team top scorer ");
+                        if(index > 0){
+                            break_down(players[top_scorer(players, index)]);
+                        }
+                    }
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    else if(stats_choice == 5){
+                        print_header(" Yongest player ");
+                        if(index > 0){
+                            break_down(players[yongest_player(players, index)]);
+                        }
+                        printf("| Hit Enter to continue ;)");
+                        getchar();
+                    }
+                    else if(stats_choice == 6){
+                        is_stats = false;
+                    }
+
+                    system ("clear");
+                }
                 break;
             case 7 : 
                 printf("7");
