@@ -835,98 +835,115 @@ int main (){
                 bool is_stats = true;
                 int stats_choice = 0;
 
-                while (is_stats){
-                    print_header(" Stats ");
+                if(index > 0){
 
-                    printf("|\t1. Show total players.\n");
-                    printf("|\t2. Show average team age.\n");
-                    printf("|\t3. Show players scored more than ...\n");
-                    printf("|\t4. Show team's top scorer.\n");
-                    printf("|\t5. Show the yougest player.\n");
-                    printf("|\t6. Back to home menu.\n");
-                    printf("|\n");
+                    while (is_stats){
+                        print_header(" Stats ");
 
-                    do {
-                        printf("|-----> ");
-                        scanf("%d", &stats_choice);
-                        while(getchar() != '\n');
-                    }while(stats_choice > 6 || stats_choice < 1);
-
-                    system("clear");
-                    if(stats_choice == 1){
-                        print_header(" Total Team Players ");
+                        printf("|\t1. Show total players.\n");
+                        printf("|\t2. Show average team age.\n");
+                        printf("|\t3. Show players scored more than ...\n");
+                        printf("|\t4. Show team's top scorer.\n");
+                        printf("|\t5. Show the yougest player.\n");
+                        printf("|\t6. Back to home menu.\n");
                         printf("|\n");
-                        printf("|\n");
-                        printf("|----------> Total team players is: %d\n", index);
-                    }
-                        printf("| Hit Enter to continue ;)");
-                        getchar();
-                    else if(stats_choice == 2){
+
+                        do {
+                            printf("|-----> ");
+                            scanf("%d", &stats_choice);
+                            while(getchar() != '\n');
+                        }while(stats_choice > 6 || stats_choice < 1);
+
+                        system("clear");
+                        if(stats_choice == 1){
+                            print_header(" Total Team Players ");
+                            printf("|\n");
+                            printf("|\n");
+                            printf("|----------> Total team players is: %d\n", index);
+                            printf("|\n");
+                            printf("|\n");
+                            printf("| Hit Enter to continue ;)");
+                            getchar();
+                        }
+                        else if(stats_choice == 2){
                             print_header(" Average Age ");
                             printf("|\n");
                             printf("|\n");
                             printf("|----------> Avrage team age is: %.2f", avg_age(players, index));
-                    }
-                        printf("| Hit Enter to continue ;)");
-                        getchar();
-                    else if(stats_choice == 3){
+                            printf("|\n");
+                            printf("|\n");
+                            printf("| Hit Enter to continue ;)");
+                            getchar();
+                        }
+                        else if(stats_choice == 3){
                             int x_goals = 0;
                             Player new_palyers[index] = {};
                             int j = 0;
+                            print_header(" More than X goals ");
+                            do{
+                                printf("| Enter the number of golas to show players that scores more than it: ");   
+                                scanf("%d", &x_goals);
+                                while (getchar () != '\n');
+                            }while (x_goals < 0);
 
-                            if(index > 0){
-                                print_header(" More than X goals ");
-                                do{
-                                    printf("| Enter the number of golas to show players that scores more than it: ");   
-                                    scanf("%d", &x_goals);
-                                    while (getchar () != '\n');
-                                }while (x_goals < 0);
-
-                                for(int i = 0; i < index; i++){
-                                    if(players[i].goals >= x_goals){
-                                        new_palyers[j++] = players[i];
-                                    }
+                            for(int i = 0; i < index; i++){
+                                if(players[i].goals >= x_goals){
+                                    new_palyers[j++] = players[i];
                                 }
+                            }
 
-                                if(j == 0){
-                                    printf("| There is not player who scored more than %d goals !\n", x_goals);
-                                }else{
-                                    show_all(new_palyers, j);
-                                }
+                            if(j == 0){
+                                printf("| There is not player who scored more than %d goals !\n", x_goals);
                             }else{
-                                printf("| there is no players yet !\n");
+                                show_all(new_palyers, j);
                             }
                             printf("| Hit Enter to continue ;)");
-                    }
-                        printf("| Hit Enter to continue ;)");
-                        getchar();
-                    else if(stats_choice == 4){
-                        print_header(" Team top scorer ");
-                        if(index > 0){
-                            break_down(players[top_scorer(players, index)]);
+                            getchar();
                         }
-                    }
-                        printf("| Hit Enter to continue ;)");
-                        getchar();
-                    else if(stats_choice == 5){
-                        print_header(" Yongest player ");
-                        if(index > 0){
-                            break_down(players[yongest_player(players, index)]);
+                        else if(stats_choice == 4){
+                            print_header(" Team top scorer ");
+                            if(index > 0){
+                                break_down(players[top_scorer(players, index)]);
+                            }
+                            printf("| Hit Enter to continue ;)");
+                            getchar();
                         }
-                        printf("| Hit Enter to continue ;)");
-                        getchar();
+                        else if(stats_choice == 5){
+                            print_header(" Yongest player ");
+                            if(index > 0){
+                                break_down(players[yongest_player(players, index)]);
+                            }
+                            printf("| Hit Enter to continue ;)");
+                            getchar();
+                        }
+                        else if(stats_choice == 6){
+                            is_stats = false;
+                        }else{
+                            printf("| Enter a valide choice !\n");
+                            printf("| Hit Enter to continue ;)");
+                            getchar();
+                        }
+                        
+                        system ("clear");
                     }
-                    else if(stats_choice == 6){
-                        is_stats = false;
-                    }
-
-                    system ("clear");
+                    break;
+                }else{
+                    print_header(" Empty set ");
+                    printf("\n");
+                    printf("\n");
+                    printf("\n");
+                    print_in_center("There is no players yet, please go back and add some !", WIDTH);
+                    printf("\n");
+                    printf("\n");
+                    printf("\n Hit Enter to continue ;)");
+                    getchar();
                 }
                 break;
-            case 7 : 
-                printf("7");
+            case 7:
+                is_running = false;
                 break;
             default : 
+            
                 print_header(" 404 ");
                 printf("\n\n");
                 print_in_center("OOPS, looks like there is not matching option :(", WIDTH);
