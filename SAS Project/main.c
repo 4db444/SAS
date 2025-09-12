@@ -34,7 +34,9 @@ typedef struct {
 } Player;
 
 Date get_date (){
+    // time() return the current time in seconds since 1970.
     time_t T = time(0);
+    // localtime () accepts the addres o fhte time_t instance and return a pointer of type struct tm.
     struct tm date = *localtime(&T);
     Date today = {};
 
@@ -49,15 +51,17 @@ Date get_date (){
 
 void trim(char string[]){
     int i = 0;
-
+    // counting how much leadind space that we have.
     while (string[i] == ' ') i++;
 
+    // shifting the string to the left removing leading spaces and add the null terminator at the end.
     if (i  > 0){
         int j = 0;
         while (string[j] != '\0') string[j++] = string[i++];
         string [j] = '\0';
     }
 
+    // removing trailing spaces.
     int l = strlen(string);
     while (l > 0 && string[l - 1] == ' '){
         string[l - 1] = '\0';
@@ -66,6 +70,7 @@ void trim(char string[]){
 }
 
 void print_header (char title[]){
+    // this function counts the total width - the width of the stirng and based on that it outputs the header.
     int half_width = (WIDTH - strlen(title) ) / 2;
 
     printf("+");
@@ -92,10 +97,12 @@ void print_line (char string[]){
 }
 
 void break_down (Player player){
+    // accepts a player instance and returns show all its informations.
     char id [20] = "";
     char age [20] = "";
     char goals [20] = "";
 
+    // sprintf() converts integer to string, and based on that we can calculate its lengtha and scenter it in a table
     sprintf(id, "%d", player.id);
     sprintf(age, "%d", player.age);
     sprintf(goals, "%d", player.goals);
@@ -146,6 +153,7 @@ void break_down (Player player){
     print_header("");
 }
 
+// print the tables head.
 void print_table_head (){
     printf("+");
     for(int i = 0; i < ID_WIDTH; i++) printf("-");
@@ -234,6 +242,7 @@ void print_table_head (){
     printf("+\n");
 }
 
+// this takes the whole players array and show it.
 void show_all (Player players [], int index){
     print_table_head();
 
@@ -319,6 +328,7 @@ void show_all (Player players [], int index){
     }
 }
 
+// this checks if the t-shirt number allready exists
 bool is_validate_number(Player arr[], int n, int index){
     for (int i = 0; i < index; i++){
         if(arr[i].number == n) return 0;
@@ -326,10 +336,12 @@ bool is_validate_number(Player arr[], int n, int index){
     return 1;
 }
 
+// this sort players by position.
 void sort_by_position (Player arr[], int index){
     int j = 0;
     Player temp = {};
     
+    // starts with strikers.
     for(int i = 0; i < index; i++){
         if(strcmp(arr[i].position, "Striker") == 0){
             temp = arr[j];
@@ -338,6 +350,7 @@ void sort_by_position (Player arr[], int index){
         }
     }
 
+    // then midfeilders.
     for(int i = j; i < index; i++){
         if(strcmp(arr[i].position, "Midfeilder") == 0){
             temp = arr[j];
@@ -346,6 +359,7 @@ void sort_by_position (Player arr[], int index){
         }
     }
 
+    // then defenders.
     for(int i = j; i < index; i++){
         if(strcmp(arr[i].position, "Defender") == 0){
             temp = arr[j];
@@ -355,8 +369,8 @@ void sort_by_position (Player arr[], int index){
     }
 }
 
+// this sort players by age, using the selection sort.
 void sort_by_age (Player arr[], int index){
-
     Player temp = {0};
 
     for(int i = 0; i < index - 1; i++){
@@ -374,6 +388,7 @@ void sort_by_age (Player arr[], int index){
     }
 }
 
+// this sort players by name using the selection sort.
 void sort_by_name (Player arr[], int index){
     for (int i = 0; i < index - 1; i++){
         int min = i;
@@ -400,8 +415,8 @@ void sort_by_name (Player arr[], int index){
     }
 }
 
+// this sort players by goals.
 void sort_by_goals (Player arr[], int index){
-
     Player temp = {0};
 
     for(int i = 0; i < index - 1; i++){
@@ -415,10 +430,10 @@ void sort_by_goals (Player arr[], int index){
         temp = arr[max];
         arr[max] = arr[i];
         arr[i] = temp;
-
     }
 }
 
+// emplement linear search for searching by ID.
 int find_by_id (Player arr[], int index, int id){
     for (int i = 0; i < index; i++){
         if(arr[i].id == id) return i;
@@ -427,6 +442,7 @@ int find_by_id (Player arr[], int index, int id){
     return -1;
 }
 
+// emplement liear search for finding players by name.
 int find_by_name (Player arr[], int index, char name[]){
     for (int i = 0; i < index; i++){
         char full_name_1[60] = "", full_name_2[60];
@@ -444,6 +460,7 @@ int find_by_name (Player arr[], int index, char name[]){
     return -1;
 }
 
+// used to update the players age, posts and goals.
 void update_player (Player arr[], int index, int id){
     int new_age = 0;
     int new_goals = 0;
@@ -496,6 +513,7 @@ void update_player (Player arr[], int index, int id){
     arr[id].goals = new_goals;
 }
 
+// helper function that help me know what type the used wants to search with and return the result.
 int search_type (Player arr[], int index){
     int search_type = 0;
 
@@ -543,6 +561,7 @@ int search_type (Player arr[], int index){
     }
 }
 
+// deletes a player record (by name, ID).
 void delete_player (Player arr[], int *index){
     int id = search_type(arr, *index);
 
@@ -572,6 +591,8 @@ void delete_player (Player arr[], int *index){
     getchar();
     getchar();
 }
+
+// looks and show players by(name, ID).
 void search_player (Player arr[], int index){
     int id = search_type(arr, index);
 
@@ -587,6 +608,7 @@ void search_player (Player arr[], int index){
     getchar();
 }
 
+// return the avreage age.
 float avg_age(Player arr[], int index){
     float sum = 0;
     for(int i = 0; i < index; i++){
@@ -596,6 +618,7 @@ float avg_age(Player arr[], int index){
     return avg;
 }
 
+// returns the id of the top scorer.
 int top_scorer(Player arr[], int index){
     int max = 0;
     for(int i = 1; i < index; i++){
@@ -606,6 +629,7 @@ int top_scorer(Player arr[], int index){
     return max;
 }
 
+// return the id of the yongest player.
 int yongest_player(Player arr[], int index){
     int min = 0;
     for(int i = 1; i < index; i++){
@@ -619,15 +643,22 @@ int yongest_player(Player arr[], int index){
 int main (){
 
     Player players[100] = {
-        {1, "brahim", "hello", 2, "Defender", 11, 100, get_date()},
-        {2, "messi", "hi", 11, "Striker", 15, 120, get_date()},
-        {3, "halland", "by", 5, "Striker", 8, 20, get_date()},
-        {4, "khalid", "moooochi", 1, "Goalkeeper", 85, 45, get_date()}
+        {1, "brahim", "alhaine", 2, "Defender", 17, 100, get_date()},
+        {2, "david", "villa", 3, "Defender", 25, 99, get_date()},
+        {3, "evan", "racitic", 5, "Midfeilder", 21, 45, get_date()},
+        {4, "mehdi", "adli", 6, "Goalkeeper", 24, 0, get_date()},
+        {5, "jordi", "alaba", 11, "Defender", 29, 10, get_date()},
+        {6, "cristiano", "roanldo", 23, "Midfeilder", 33, 4, get_date()},
+        {7, "neymar", "jonior", 55, "Striker", 34, 9, get_date()},
+        {8, "mohammed", "ahleen", 12, "Midfeilder", 31, 24, get_date()},
+        {9, "messi", "leo", 10, "Striker", 18, 111, get_date()},
+        {10, "halland", "erleng", 9, "Striker", 41, 20, get_date()},
+        {11, "brahim", "mochan", 17, "Goalkeeper", 45, 0, get_date()}
     };
-    int ID = 5;
+    int ID = 12;
     int choice = 0;
     bool is_running = true;
-    int index = 4;
+    int index = 11;
 
     print_in_center("Welcome To Team Managing App", WIDTH);
 
@@ -990,5 +1021,7 @@ int main (){
         choice = 0;
         system("clear");
     }
+
+    printf("By ! \n");
     return 0;
 }
